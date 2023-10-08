@@ -20,7 +20,10 @@ alt.onServer('playerEnteredVehicle', (vehicle, seat) => {
 
     pedInSeat = seat;
     isInVehicle = true;
+
+    // ALTV V15 AUDIO
     browser.on('radio:isplaying', (radiostat) => {
+        if( playing != 1){ 
         output = new alt.AudioOutputAttached(player.vehicle);
         audio = new alt.Audio(radiostat,1,true);
         audio.on("inited", () => { alt.log(`inited`); });
@@ -29,11 +32,14 @@ alt.onServer('playerEnteredVehicle', (vehicle, seat) => {
         audio.play();
         playing = 1;
             alt.log("YOUPI" + radiostat)
-        });
+        }
+    return;});
         browser.on('radio:ismoving',() => {
             if(playing == 1 && audio.playing == true){ alt.log("TYYE")
             audio.pause()}
+            playing = 0;
             });
+        
     browser.on('radio:StationChanged', radioStation => {
         
         alt.emitServer('vehicle:RadioChanged', player.vehicle, radioStation);
@@ -60,11 +66,11 @@ alt.onServer('playerEnteredVehicle', (vehicle, seat) => {
 });
 
 alt.onServer('playerLeftVehicle', (vehicle, seat) => {
-    // browser.unfocus();
-    // browser = undefined;
-    // pedInSeat = undefined;
-    // isInVehicle = false;
-    // mounted = false;
+    browser.unfocus();
+    browser = undefined;
+    pedInSeat = undefined;
+    isInVehicle = false;
+    mounted = false;
 });
 
 
