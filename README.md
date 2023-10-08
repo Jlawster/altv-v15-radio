@@ -32,6 +32,8 @@ You can edit maximum audio range in client.mjs line 17
     category.volume =30;
 ```
 
+For QWERTY keyboard, replace "eu" by "us" in radio.html
+
 ### Radio Station Object format
 
 ```js
@@ -50,6 +52,8 @@ Remove logs
 Add ui for volume change
 
 Manage multiple audio sources
+
+Key bindings
 
 ### In-game usage
 
