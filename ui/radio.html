@@ -19,7 +19,8 @@
 </html>
 
 <script>
-    
+    const eu = 65;
+    const us = 81;
     const app = new Vue({
         el: '#app',
         data: {
@@ -59,6 +60,7 @@
                 }
 
                 if (this.currentRadio != 0) {
+                    
                     this.player.src = this.radioList[this.currentRadio].url;
                     this.player.play();
                     // const output = new alt.AudioOutputAttached(alt.Player.local.vehicle);
@@ -134,7 +136,7 @@
             });
 
             window.addEventListener('keydown', event => {
-                if (event.keyCode === 81) {
+                if (event.keyCode === eu) {
                     this.focused = true;
                 } else {
                     return;
@@ -142,7 +144,7 @@
             });
 
             window.addEventListener('keyup', event => {
-                if (event.keyCode === 81) {
+                if (event.keyCode === eu) {
                     this.focused = false;
                 } else {
                     return;
