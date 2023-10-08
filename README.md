@@ -32,7 +32,7 @@ You can edit maximum audio range in client.mjs line 17
     category.volume =30;
 ```
 
-For QWERTY keyboard, replace "eu" by "us" in radio.html
+For QWERTY keyboard, replace "eu" by "us" in radio.html line 139 and 147
 
 ### Radio Station Object format
 
