@@ -37,7 +37,10 @@ Audio API requires 2 channels, 16 bit, 48000 Hz audio format
 
 ##  TO DO
 
+Remove logs
+
 Add ui for volume change
+
 Manage multiple audio sources
 
 ### In-game usage
