@@ -1,5 +1,7 @@
 # BETTER alt:V Radio support v15 audio API
 
+ONLY AVAILABLE FOR alt:V 15.xx version
+
 BETTER alt:V Radio resource replaces the default GTA V vehicle radio with custom online 
 radio stations.
 
