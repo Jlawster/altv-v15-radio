@@ -24,6 +24,11 @@ you will find an array of radio stations.
 
 Audio API requires 2 channels, 16 bit, 48000 Hz audio format
 
+You can edit maximum audio range in client.mjs line 17
+```js
+    category.volume =30;
+```
+
 ### Radio Station Object format
 
 ```js
