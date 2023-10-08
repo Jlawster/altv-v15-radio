@@ -1,0 +1,5 @@
+client-files = [ 'client/*', 'ui/*' ]
+client-main = 'client/client.mjs'
+deps = []
+main = 'server/server.mjs'
+type = 'js'
