@@ -19,6 +19,7 @@
 </html>
 
 <script>
+    
     const app = new Vue({
         el: '#app',
         data: {
@@ -40,6 +41,7 @@
                 return Math.floor(Math.random() * (max - min + 1) + min);
             },
             play() {
+                
                 const isPlaying =
                     this.player.currentTime > 0 &&
                     !this.player.paused &&
@@ -58,7 +60,15 @@
 
                 if (this.currentRadio != 0) {
                     this.player.src = this.radioList[this.currentRadio].url;
-                    this.player.play().then(_ => {}).catch(error => {})
+                    this.player.play();
+                    // const output = new alt.AudioOutputAttached(alt.Player.local.vehicle);
+                    // const audio = new alt.Audio(this.radioList[this.currentRadio].url,1,true);
+                    
+                    // // this.player.play().then(_ => {}).catch(error => {})
+                    // audio.on("inited", () => { alt.log(`inited`); });
+                    // console.log(output.filter);
+                    // audio.addOutput(output);
+                    // audio.play();
                 }
             },
             mouseScroll(delta) {
