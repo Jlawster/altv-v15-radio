@@ -3,6 +3,8 @@
 BETTER alt:V Radio resource replaces the default GTA V vehicle radio with custom online 
 radio stations.
 
+I'm using the vehicle as audio emitter
+
 3d AUDIO
 Volume Control
 
