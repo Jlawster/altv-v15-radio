@@ -62,6 +62,11 @@ Key bindings
 While in a vehicle, scroll the mouse wheel while holding the A key.
 Change volume using , (; for EU) INPUT_VEH_PREV_RADIO
 
+
+## Known issues
+
+Only one station is available
+
 ##  CREDITS
 
 https://github.com/jovanivanovic/altv-radio for the menu
