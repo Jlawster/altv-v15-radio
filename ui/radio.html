@@ -60,9 +60,9 @@
                 }
 
                 if (this.currentRadio != 0) {
-                    
-                    this.player.src = this.radioList[this.currentRadio].url;
-                    this.player.play();
+                    let radiostat = this.radioList[this.currentRadio].url
+                    alt.emit('radio:isplaying', radiostat);
+                    // this.player.play();
                     // const output = new alt.AudioOutputAttached(alt.Player.local.vehicle);
                     // const audio = new alt.Audio(this.radioList[this.currentRadio].url,1,true);
                     
@@ -78,7 +78,7 @@
                     this.beep = new Audio('http://resource/ui/audio/beep.mp3');
                     this.beep.volume = 0.1;
                     this.beep.play();
-
+                    alt.emit('radio:ismoving');
                     if (this.switching) {
                         this.switching.pause();
                         this.switching = null;
