@@ -72,7 +72,11 @@ Only one station is available
 ##  CREDITS
 
 https://github.com/jovanivanovic/altv-radio for the menu
+
 alt:V team for the wonderful audio API and platform
+
+Splak for optimization
+
 Jlawster for the improvements 
 
 ## License
