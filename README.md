@@ -75,7 +75,7 @@ https://github.com/jovanivanovic/altv-radio for the menu
 
 alt:V team for the wonderful audio API and platform
 
-Splak for optimization
+Thanks to splak for the optimization help
 
 Jlawster for the improvements 
 
