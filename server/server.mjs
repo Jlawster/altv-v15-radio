@@ -14,7 +14,7 @@ alt.on('playerChangedVehicleSeat', (player, vehicle, oldSeat, newSeat) => {
 });
 
 alt.onClient('vehicle:RadioChanged', (player, vehicle, radioStation) => {
-    vehicle.setSyncedMeta('radioStation', radioStation);
+    vehicle.setStreamSyncedMeta('radioStation', radioStation);
 });
 
 alt.onClient('radio:GetRadioStations', player => {
