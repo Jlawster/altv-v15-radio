@@ -19,14 +19,24 @@ let currentVehicleRadio = 0;
 
 // custom object
 
-function radio(station, volume, playing, audio){
+function radio(station, volume, playing, audio, output){
     this.station = station; 
     this.volume = volume;
     this.playing = playing;
-    this.audio = audio; 
+    this.audio = audio;
+    this.output = output; 
     this.show=function(){ // method show
       console.log(this.station + " " + this.volume + this.playing + " " + this.audio);
     };
+
+    this.clear=function(){ // method clear
+        this.station = 0; 
+        this.volume = 0;
+        this.playing = false; 
+        this.audio.destroy();
+        this.output.destroy();
+      };
+
   }
 
 // Define range of audio
@@ -37,22 +47,6 @@ category.volume =30;
 
 native.startAudioScene('DLC_MPHEIST_TRANSITION_TO_APT_FADE_IN_RADIO_SCENE')
 
-
-function checkVehicle(vehicle){
-
-    if(usedVehicles.length != 0){
-    for(let i = 0; i < usedVehicles.length; i++){
-        alt.log(i)
-        if(usedVehicles[i].id != vehicle.id){
-            i++
-        } 
-            return true;
-
-    }
-
-}else {
-    return false;
-}}
 
 function listUsedVehicles(usedVehicle){
     // for(let i=0; i<usedVehicle.size;i++){
@@ -66,12 +60,13 @@ function listUsedVehicles(usedVehicle){
     console.log(iterator1.next().value);
 }
 
-function getStation(vehicle) {
-    // TO DO Get vehicle station
-}
+function checkVehicle(vehicleId) {
 
-function getAudioVolume(vehicle, audio){
+    const iterator1 = usedVehicle.keys();
 
+    for (const item of iterator1) {
+        console.log("tamer " + item + "tamer " + vehicleId);
+      }
 }
 
 alt.onServer('playerEnteredVehicle', (vehicle, seat) => {
@@ -87,8 +82,8 @@ alt.onServer('playerEnteredVehicle', (vehicle, seat) => {
 
     // ALTV V15 AUDIO
     browser.on('radio:isplaying', (radiostat) => {
-        alt.log(checkVehicle(player.vehicle));
         if( true ){ 
+        checkVehicle(player.vehicle.id);
        alt.log('vehicle ' + player.vehicle);
         output = new alt.AudioOutputAttached(player.vehicle);
         audio = new alt.Audio(radiostat,0.1,true);
@@ -96,10 +91,9 @@ alt.onServer('playerEnteredVehicle', (vehicle, seat) => {
         console.log(output.filter);
         audio.addOutput(output);
         audio.play();
-        usedVehicles.push(player.vehicle);
         playing = 1;
             alt.log("YOUPI" + radiostat)
-        let wow = new radio(radiostat,audio.volume,true,audio);
+        let wow = new radio(radiostat,audio.volume,true,audio, output);
         wow.show();
         usedVehicle.set(player.vehicle.id, wow);
         alt.log(listUsedVehicles(usedVehicle));
@@ -111,7 +105,7 @@ alt.onServer('playerEnteredVehicle', (vehicle, seat) => {
         });
         browser.on('radio:ismoving',() => {
             if(playing == 1 && audio.playing == true){ alt.log("TYYE")
-            audio.destroy()}
+            usedVehicle.get(player.vehicle.id).clear()}
             playing = 0;
             });
         
