@@ -204,6 +204,10 @@ alt.on('keydown', key => {
         vehVol.volume = vehVol.audio.volume;
         alt.log(audio.volume);
         alt.log("test" + vehVol.volume);
+        browser.emit('changeVolume', vehVol.volume);
+        browser.focus();
+        focused = true;
+        browser.emit('focus');
        
     }
 });
@@ -219,5 +223,13 @@ alt.on('keyup', key => {
             if (browser)
                 browser.emit('unfocus');
         }, 700);
+    }
+
+    if (isInVehicle == true && native.isControlPressed(0, 82) == false && browser) {
+        
+        browser.unfocus();
+        focused = false;
+        browser.emit('unfocus');
+       
     }
 });

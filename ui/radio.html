@@ -9,6 +9,7 @@
                 <div class="radio">
                     <div class="station">
                         <img v-bind:src="radioList[currentRadio].image" />
+                        <progress id="vol" max="1" value="0.1"></progress>
                     </div>
                 </div>
             </div>
@@ -19,6 +20,8 @@
 </html>
 
 <script>
+
+    let vol = document.getElementById("vol");
     const eu = 65;
     const us = 81;
     const app = new Vue({
@@ -62,15 +65,6 @@
                 if (this.currentRadio != 0) {
                     let radiostat = this.radioList[this.currentRadio].url
                     alt.emit('radio:isplaying', radiostat);
-                    // this.player.play();
-                    // const output = new alt.AudioOutputAttached(alt.Player.local.vehicle);
-                    // const audio = new alt.Audio(this.radioList[this.currentRadio].url,1,true);
-                    
-                    // // this.player.play().then(_ => {}).catch(error => {})
-                    // audio.on("inited", () => { alt.log(`inited`); });
-                    // console.log(output.filter);
-                    // audio.addOutput(output);
-                    // audio.play();
                 }
             },
             mouseScroll(delta) {
@@ -125,6 +119,7 @@
             currentRadio() {
                 if ('alt' in window) {
                     alt.emit('radio:StationChanged', this.currentRadio);
+                    document.getElementById("vol").value = 0.1;
                 }
             }
         },
@@ -172,12 +167,18 @@
                     this.gotoStation(radioStation);
                 });
 
+                alt.on('changeVolume', volume=> {
+                    document.getElementById("vol").value = volume;
+                    console.log("FDP " + volume)
+                });
+
                 alt.on('addRadioStation', radio => {
                     this.radioList.push(radio);
                 });
 
                 alt.on('focus', () => {
                     this.focused = true
+                    console.log("WAWA " + document.getElementById("vol").value)
                 });
 
                 alt.on('unfocus', () => {

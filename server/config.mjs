@@ -11,18 +11,6 @@ const radioList = [
         url: 'http://radio.gtrp.co/listen/stayin/radio.mp3',
         image: 'http://resource/ui/img/rnr.png',
         volume: 100
-    },
-    {
-        name: 'Rock',
-        url: 'http://radio.gtrp.co:8010/radio.mp3',
-        image: 'http://resource/ui/img/radiosa.png',
-        volume: 100
-    },
-    {
-        name: 'LSD',
-        url: 'http://radio.gtrp.co/listen/lsd/radio.mp3',
-        image: 'http://resource/ui/img/msx.png',
-        volume: 100
     }
 ];
 
