@@ -11,6 +11,8 @@ let stationsQueue = [];
 let audio;
 let output;
 let playing = 0;
+let usedVehicles = [];
+let currentVehicleRadio = 0;
 
 // Define range of audio
 const category = alt.AudioCategory.getForName("radio");
@@ -21,6 +23,26 @@ category.volume =30;
 native.startAudioScene('DLC_MPHEIST_TRANSITION_TO_APT_FADE_IN_RADIO_SCENE')
 
 
+function checkVehicle(vehicle){
+
+    if(usedVehicles.length != 0){
+    for(let i = 0; i < usedVehicles.length; i++){
+        
+        if(usedVehicles[i].id != vehicle.id){
+            i++
+        } 
+            return true;
+
+    }
+
+}else {
+    return false;
+}}
+
+function getStation(vehicle) {
+    // TO DO Get vehicle station
+}
+
 alt.onServer('playerEnteredVehicle', (vehicle, seat) => {
 
     alt.emitServer('radio:GetRadioStations');
@@ -30,25 +52,30 @@ alt.onServer('playerEnteredVehicle', (vehicle, seat) => {
     pedInSeat = seat;
     isInVehicle = true;
 
+
+
     // ALTV V15 AUDIO
     browser.on('radio:isplaying', (radiostat) => {
-        if( playing != 1   ){ 
-       
+        alt.log(checkVehicle(player.vehicle));
+        if( true ){ 
+       alt.log('vehicle ' + player.vehicle);
         output = new alt.AudioOutputAttached(player.vehicle);
         audio = new alt.Audio(radiostat,0.1,true);
         audio.on("inited", () => { alt.log(`inited`); });
         console.log(output.filter);
         audio.addOutput(output);
         audio.play();
+        usedVehicles.push(player.vehicle);
         playing = 1;
             alt.log("YOUPI" + radiostat)
         }
-        alt.log("OUTPUTS " + audio.getOutputs()[0]);
-        alt.log(output);
+        // audio.play();
+        // alt.log("OUTPUTS " + audio.getOutputs()[0]);
+        alt.log(JSON.stringify(audio)) + " " + JSON.stringify((output));
         });
         browser.on('radio:ismoving',() => {
             if(playing == 1 && audio.playing == true){ alt.log("TYYE")
-            audio.pause()}
+            audio.destroy()}
             playing = 0;
             });
         
@@ -67,9 +94,9 @@ alt.onServer('playerEnteredVehicle', (vehicle, seat) => {
             });
         }
 
-        let currentVehicleRadio = player.vehicle.getSyncedMeta('radioStation')
-            ? player.vehicle.getSyncedMeta('radioStation')
-            : 0;
+        currentVehicleRadio = player.vehicle.getStreamSyncedMeta('radioStation')
+            ? player.vehicle.getStreamSyncedMeta('radioStation')
+            : currentVehicleRadio;
         browser.emit('switchRadio', currentVehicleRadio);
     });
     
@@ -97,7 +124,7 @@ alt.onServer('radio:AddStation', station => {
     alt.log(JSON.stringify(station));
 });
 
-alt.on('syncedMetaChange', (entity, key, value) => {
+alt.on('streamSyncedMetaChange', (entity, key, value) => {
     if (entity != player.vehicle || key != 'radioStation' || player.seat == 1) return;
 
     if (browser && mounted)
@@ -110,7 +137,7 @@ alt.everyTick(() => {
     if (isInVehicle) {
         native.disableControlAction(0, 85, true);
     } else {
-        native.enableControlAction(0, 85, false);
+        native.enableControlAction(0, 85, true);
     }
 
     if (focused) {
@@ -125,7 +152,7 @@ alt.everyTick(() => {
 });
 
 alt.on('keydown', key => {
-    if (native.isControlPressed(0, 152) == true && browser) {
+    if (isInVehicle == true && native.isControlPressed(0, 152) == true && browser) {
         
         const pedInSeat = native.getPedInVehicleSeat(player.vehicle.scriptID, -1, false);
         if (pedInSeat !== player.scriptID) return;
@@ -135,11 +162,11 @@ alt.on('keydown', key => {
         browser.emit('focus');
     }
 
-    if (native.isControlPressed(0, 82) == true && browser) {
-        // audio.volume += 0.1
+    if (isInVehicle == true && native.isControlPressed(0, 82) == true && browser) {
+        
         audio.volume == 1? audio.volume = 0.1: audio.volume += 0.1;
         alt.log(audio.volume);
-        // audio.volume 
+        
     }
 });
 

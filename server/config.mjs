@@ -19,8 +19,8 @@ const radioList = [
         volume: 100
     },
     {
-        name: 'vicecity',
-        url: 'http://radio.gtrp.co:8060/radio.mp3',
+        name: 'LSD',
+        url: 'http://radio.gtrp.co/listen/lsd/radio.mp3',
         image: 'http://resource/ui/img/msx.png',
         volume: 100
     }
