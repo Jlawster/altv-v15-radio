@@ -12,7 +12,22 @@ let audio;
 let output;
 let playing = 0;
 let usedVehicles = [];
+
+let usedVehicle = new Map();
+
 let currentVehicleRadio = 0;
+
+// custom object
+
+function radio(station, volume, playing, audio){
+    this.station = station; 
+    this.volume = volume;
+    this.playing = playing;
+    this.audio = audio; 
+    this.show=function(){ // method show
+      console.log(this.station + " " + this.volume + this.playing + " " + this.audio);
+    };
+  }
 
 // Define range of audio
 const category = alt.AudioCategory.getForName("radio");
@@ -27,7 +42,7 @@ function checkVehicle(vehicle){
 
     if(usedVehicles.length != 0){
     for(let i = 0; i < usedVehicles.length; i++){
-        
+        alt.log(i)
         if(usedVehicles[i].id != vehicle.id){
             i++
         } 
@@ -39,8 +54,24 @@ function checkVehicle(vehicle){
     return false;
 }}
 
+function listUsedVehicles(usedVehicle){
+    // for(let i=0; i<usedVehicle.size;i++){
+    //     alt.log(usedVehicle.get(i).show());
+    // }
+
+    const iterator1 = usedVehicle.values();
+
+    console.log(iterator1.next().value);
+
+    console.log(iterator1.next().value);
+}
+
 function getStation(vehicle) {
     // TO DO Get vehicle station
+}
+
+function getAudioVolume(vehicle, audio){
+
 }
 
 alt.onServer('playerEnteredVehicle', (vehicle, seat) => {
@@ -68,10 +99,15 @@ alt.onServer('playerEnteredVehicle', (vehicle, seat) => {
         usedVehicles.push(player.vehicle);
         playing = 1;
             alt.log("YOUPI" + radiostat)
+        let wow = new radio(radiostat,audio.volume,true,audio);
+        wow.show();
+        usedVehicle.set(player.vehicle.id, wow);
+        alt.log(listUsedVehicles(usedVehicle));
+        alt.log("audio " + audio.value)
         }
         // audio.play();
         // alt.log("OUTPUTS " + audio.getOutputs()[0]);
-        alt.log(JSON.stringify(audio)) + " " + JSON.stringify((output));
+        // alt.log(JSON.stringify(audio)) + " " + JSON.stringify((output));
         });
         browser.on('radio:ismoving',() => {
             if(playing == 1 && audio.playing == true){ alt.log("TYYE")
@@ -166,7 +202,7 @@ alt.on('keydown', key => {
         
         audio.volume == 1? audio.volume = 0.1: audio.volume += 0.1;
         alt.log(audio.volume);
-        
+        alt.log("test" + audio.source);
     }
 });
 
