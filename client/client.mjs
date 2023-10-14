@@ -64,9 +64,16 @@ function checkVehicle(vehicleId) {
 
     const iterator1 = usedVehicle.keys();
 
-    for (const item of iterator1) {
-        console.log("tamer " + item + "tamer " + vehicleId);
-      }
+    for(let i = 0; i < usedVehicle.size; i++){
+        if(iterator1.next().value != vehicleId) {
+            alt.log(iterator1.value +' nope');
+        }
+        else {
+            alt.log(iterator1.value +' YES');
+            return true;
+        }
+    }
+    return false;
 }
 
 alt.onServer('playerEnteredVehicle', (vehicle, seat) => {
@@ -82,8 +89,8 @@ alt.onServer('playerEnteredVehicle', (vehicle, seat) => {
 
     // ALTV V15 AUDIO
     browser.on('radio:isplaying', (radiostat) => {
-        if( true ){ 
         checkVehicle(player.vehicle.id);
+        if(  !checkVehicle(player.vehicle.id) ){ // Check if the current vehicle isn't already playing
        alt.log('vehicle ' + player.vehicle);
         output = new alt.AudioOutputAttached(player.vehicle);
         audio = new alt.Audio(radiostat,0.1,true);
@@ -99,13 +106,11 @@ alt.onServer('playerEnteredVehicle', (vehicle, seat) => {
         alt.log(listUsedVehicles(usedVehicle));
         alt.log("audio " + audio.value)
         }
-        // audio.play();
-        // alt.log("OUTPUTS " + audio.getOutputs()[0]);
-        // alt.log(JSON.stringify(audio)) + " " + JSON.stringify((output));
         });
         browser.on('radio:ismoving',() => {
             if(playing == 1 && audio.playing == true){ alt.log("TYYE")
-            usedVehicle.get(player.vehicle.id).clear()}
+            usedVehicle.get(player.vehicle.id).clear()
+            usedVehicle.delete(player.vehicle.id)}
             playing = 0;
             });
         
@@ -194,9 +199,12 @@ alt.on('keydown', key => {
 
     if (isInVehicle == true && native.isControlPressed(0, 82) == true && browser) {
         
-        audio.volume == 1? audio.volume = 0.1: audio.volume += 0.1;
+        let vehVol = usedVehicle.get(player.vehicle.id);
+        vehVol.audio.volume == 1? vehVol.audio.volume = 0.1: vehVol.audio.volume += 0.1;
+        vehVol.volume = vehVol.audio.volume;
         alt.log(audio.volume);
-        alt.log("test" + audio.source);
+        alt.log("test" + vehVol.volume);
+       
     }
 });
 
