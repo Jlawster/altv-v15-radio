@@ -77,6 +77,8 @@ alt:V team for the wonderful audio API and platform
 
 Thanks to splak for the optimization help
 
+Thanks to BluePeer for multistream help
+
 Jlawster for the improvements 
 
 ## License
