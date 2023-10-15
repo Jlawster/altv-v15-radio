@@ -83,7 +83,7 @@ alt.onServer('playerEnteredVehicle', (vehicle, seat) => {
 
     // ALTV V15 AUDIO
     browser.on('radio:isplaying', (radiostat) => {
-        if(  !checkVehicle(player.vehicle.id) ){ // Check if the current vehicle isn't already playing
+        if(  !checkVehicle(player.vehicle.id) && radiostat != "off" ){ // Check if the current vehicle isn't already playing
     //    alt.log('vehicle ' + player.vehicle);
         output = new alt.AudioOutputAttached(player.vehicle);
         audio = new alt.Audio(radiostat,0.1,true);
@@ -92,15 +92,25 @@ alt.onServer('playerEnteredVehicle', (vehicle, seat) => {
         audio.addOutput(output);
         audio.play();
             // alt.log("Playing " + radiostat)
-        let wow = new radio(radiostat,audio.volume,true,audio, output);
-        wow.show();
-        usedVehicle.set(player.vehicle.id, wow);
+        let newRadio = new radio(radiostat,audio.volume,true,audio, output);
+        newRadio.show();
+        usedVehicle.set(player.vehicle.id, newRadio);
         // alt.log(listUsedVehicles(usedVehicle));
         // alt.log("audio " + audio.value)
+        } else {
+            if(radiostat == "off"){
+                let newRadio  = new radio(radiostat, 0, 0, 0, 0);
+                usedVehicle.set(player.vehicle.id, newRadio);
+            } else {
+                browser.emit('changeVolume', usedVehicle.get(player.vehicle.id).audio.volume);
+            }
         }
         });
         browser.on('radio:ismoving',() => {
+            if(usedVehicle.get(player.vehicle.id).station != "off")
+        {
             usedVehicle.get(player.vehicle.id).clear()
+        }
             usedVehicle.delete(player.vehicle.id)
             });
         
@@ -189,8 +199,8 @@ alt.on('keydown', key => {
 
 
 
-    if (isInVehicle == true && native.isControlPressed(0, 82) == true && browser) {
-        
+    if (isInVehicle == true && native.isControlPressed(0, 82) == true  && usedVehicle.get(player.vehicle.id).station != "off") {
+        alt.log(usedVehicle.get(player.vehicle.id).station)
         let vehVol = usedVehicle.get(player.vehicle.id);
         vehVol.audio.volume == 0.1? vehVol.audio.volume = 1: vehVol.audio.volume -= 0.1;
         vehVol.volume = vehVol.audio.volume;
@@ -202,7 +212,7 @@ alt.on('keydown', key => {
        
     }
 
-    if (isInVehicle == true && native.isControlPressed(0, 81) == true && browser) {
+    if (isInVehicle == true && native.isControlPressed(0, 81) == true && browser && usedVehicle.get(player.vehicle.id).station != "off") {
         
         let vehVol = usedVehicle.get(player.vehicle.id);
         vehVol.audio.volume == 1? vehVol.audio.volume = 0.1: vehVol.audio.volume += 0.1;

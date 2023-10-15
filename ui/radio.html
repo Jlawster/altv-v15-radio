@@ -70,6 +70,9 @@
                 if (this.currentRadio != 0) {
                     let radiostat = this.radioList[this.currentRadio].url
                     alt.emit('radio:isplaying', radiostat);
+                } else {
+                    let radiostat = "off"
+                    alt.emit('radio:isplaying', radiostat);
                 }
             },
             mouseScroll(delta) {
