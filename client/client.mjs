@@ -11,7 +11,6 @@ let stationsQueue = [];
 let audio;
 let output;
 let playing = 0;
-let usedVehicles = [];
 
 let usedVehicle = new Map();
 

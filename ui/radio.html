@@ -2,6 +2,7 @@
 <html>
     <head>
         <link type="text/css" rel="stylesheet" href="http://resource/ui/css/radio.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
     <body>
         <div id="app" v-show="focused" style="user-select:none">
@@ -9,8 +10,12 @@
                 <div class="radio">
                     <div class="station">
                         <img v-bind:src="radioList[currentRadio].image" />
-                        <progress id="vol" max="1" value="0.1"></progress>
                     </div>
+                </div>
+                <div>
+                    <i class="fa fa-volume-down" style="color:grey"></i>
+                    <progress id="vol" max="1" value="0.1"></progress>
+                    <i class="fa fa-volume-up" style="color:grey"></i>
                 </div>
             </div>
         </div>
@@ -169,7 +174,6 @@
 
                 alt.on('changeVolume', volume=> {
                     document.getElementById("vol").value = volume;
-                    console.log("FDP " + volume)
                 });
 
                 alt.on('addRadioStation', radio => {
@@ -178,7 +182,6 @@
 
                 alt.on('focus', () => {
                     this.focused = true
-                    console.log("WAWA " + document.getElementById("vol").value)
                 });
 
                 alt.on('unfocus', () => {
