@@ -51,18 +51,17 @@ For QWERTY keyboard, replace "eu" by "us" in radio.html line 139 and 147
 
 ##  TO DO
 
-Remove logs
-
-Add ui for volume change
-
-Manage multiple audio sources
-
 Key bindings
+
+Add filters when doors closed/open, windows up/down 
+
+Sync radio with near players
 
 ### In-game usage
 
 While in a vehicle, scroll the mouse wheel while holding the A key.
-Change volume using , (; for EU) INPUT_VEH_PREV_RADIO
+Up volume using , (; for EU) INPUT_VEH_PREV_RADIO
+Down volume using . (: for EU) INPUT_VEH_NEXT_RADIO
 
 
 ## Known issues
