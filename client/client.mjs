@@ -30,8 +30,9 @@ function radio(station, volume, playing, audio, output){
         this.station = 0; 
         this.volume = 0;
         this.playing = false; 
-        this.audio.destroy();
         this.output.destroy();
+        this.audio.destroy();
+       
       };
 
   }
